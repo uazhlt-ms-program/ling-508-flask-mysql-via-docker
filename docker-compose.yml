@@ -1,7 +1,14 @@
-version: "2.1"
+version: "3.1"
 services:
   app:
-    build: .
+    build:
+      context: .
+      # Within the Dockerfile, we'll give the command to start Flask, so that command doesn't need to be specified here
+      dockerfile: Dockerfile
+    environment:
+      APP_ENV: docker
+    ports:
+      - "5000:5000"
     depends_on:
       db:
         condition: service_healthy
@@ -9,12 +16,13 @@ services:
       - db
 
   db:
-    image: mysql:latest
+    # Just going with a recent MySQL image, but selecting a specific one so it'll continue to work
+    image: mysql:9.0.1
     restart: always
-    ports:
-      - "32000:3306"
+    #ports:
+    #  - "32000:3306"  # Don't need port mapping if Flask app is also running in a container
     environment:
-      #MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      # Password needs to match what's in mysql_repo.py
       MYSQL_ROOT_PASSWORD: strongpassword
     volumes:
       - ./data:/docker-entrypoint-initdb.d/:ro

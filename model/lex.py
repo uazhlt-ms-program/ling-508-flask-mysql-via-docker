@@ -10,6 +10,10 @@ class POS(Enum):
     ADP = 'adp'
     DET = 'det'
 
+    @classmethod
+    def __contains__(self, item):
+        return item in [v.value for v in self.__members__.values()]
+
 
 class Lexentry:
 
@@ -18,6 +22,7 @@ class Lexentry:
         self.pronunciation = pronunciation
         self.pos = pos
         self.definition = definition
+        self._fields = ['written_form', 'pronunciation', 'pos', 'definition']
 
     @property
     def written_form(self):
@@ -66,3 +71,7 @@ class Lexentry:
                       and not callable(getattr(self, a))]
         comparison = [getattr(self, attrib) == getattr(other, attrib) for attrib in attributes]
         return all(comparison)
+
+    def to_dict(self):
+        """needed in order to jsonify a Lexentry object"""
+        return {field: getattr(self, field) for field in self._fields}

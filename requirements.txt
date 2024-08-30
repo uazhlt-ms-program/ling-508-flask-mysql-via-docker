@@ -1,3 +1,5 @@
 #using python v3.10
 pytest~=8.3.2
 mysql-connector-python~=9.0.0
+flask
+flask-cors

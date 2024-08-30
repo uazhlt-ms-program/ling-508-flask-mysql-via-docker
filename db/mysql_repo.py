@@ -1,5 +1,6 @@
 import mysql.connector
 from db.repository import *
+from model.lex import Lexentry, POS
 
 
 class MysqlRepository(Repository):
@@ -9,8 +10,10 @@ class MysqlRepository(Repository):
         config = {
             'user': 'root',
             'password': 'strongpassword',
-            'host': 'localhost',  # to run LOCALLY, this should be localhost
-            'port': 32000,  # to run LOCALLY, this should be 32000
+            #'host': 'localhost',  #  used for testing when the app is not yet containerized
+            #'port': 32000,
+            'host': 'db',         #  used when the app is containerized
+            'port': 3306,
             'database': 'lexicon'
         }
         self.connection = mysql.connector.connect(**config)
@@ -25,3 +28,17 @@ class MysqlRepository(Repository):
         self.cursor.execute(sql)
         result = self.cursor.fetchall()
         return [Lexentry(*entry) for entry in result]
+
+    def save_item(self, lex_item: Lexentry) -> bool:
+        if not POS.__contains__(lex_item.pos):
+            raise ValueError('invalid POS of item to be saved')
+        sql = ("INSERT INTO lexentries "
+               "(written_form, pronunciation, pos, definition) "
+               f"VALUES ("
+               f"'{lex_item.written_form}', "
+               f"N'{lex_item.pronunciation}', "
+               f"'{lex_item.pos}', "
+               f"'{lex_item.definition}')"
+               )
+        self.cursor.execute(sql)
+        return True

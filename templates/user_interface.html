@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample lexicon app</title>
+</head>
+<body>
+
+<h1>Sample lexicon app</h1>
+
+<h2>Add a lexical item</h2>
+
+<form id="form2">
+    <div class="input-group">
+        <label for="written_form">Written form: </label>
+        <input id="written_form" name="written_form" type="text"/><br>
+        <label for="pronunciation">Pronunciation: </label>
+        <input id="pronunciation" name="pronunciation" type="text"/><br>
+        <label for="pos">Part of speech: </label>
+        <select id="pos" name="pos">
+            <!-- NOTE to students: Since this is a template, this part of the form -->
+            <!-- could be programmatically built out by passing the POS enumeration -->
+            <!-- to the template from the Flask application -->
+            <!-- /% for label, val in POS.__members__ %/ -->
+            <!-- <option value="// val //">// label //</option> -->
+            <!-- /% endfor  %/-->
+            <option value="noun">NOUN</option>
+            <option value="verb">VERB</option>
+            <option value="adv">ADV</option>
+            <option value="adj">ADJ</option>
+            <option value="adp">ADP</option>
+            <option value="det">DET</option>
+        </select><br>
+        <label for="definition">Definition: </label>
+        <input id="definition" name="definition" type="text"/>
+    </div>
+    <button type="submit" value="lexentry">Submit</button>
+</form>
+
+<h2>Response: </h2>
+<pre id="add_entry_outcome"></pre>
+
+<h2>View current lexicon</h2>
+
+<form id="form1">
+    <button type="submit" value="request">Load current lexicon</button>
+</form>
+
+<h2>Lexicon: </h2>
+<pre id="lexicon"></pre>
+
+
+</body>
+
+<script>
+async function handleSubmit1(event) {
+    event.preventDefault();
+
+    const lexicon = await fetch('http://localhost:5000/load_lex', {
+        method: 'GET'
+        });
+    const myJson = await lexicon.json();
+    console.log(myJson);
+    document.getElementById('lexicon').textContent = JSON.stringify(myJson, undefined, 2);
+}
+const form1 = document.getElementById("form1");
+form1.addEventListener("submit", async (e) => handleSubmit1(e), false);
+
+async function handleSubmit2(event) {
+    event.preventDefault();
+
+    const data = new FormData(event.target);
+    const value = Object.fromEntries(data.entries());
+    console.log({value});
+
+    const response = await fetch('http://localhost:5000/add_entry', {
+        method: 'POST',
+        body: JSON.stringify(value),
+        headers: {
+            'Content-Type': 'application/json',
+            }
+        });
+    const myJson = await response.json();
+    console.log(myJson);
+    document.getElementById('add_entry_outcome').textContent = JSON.stringify(myJson, undefined, 2);
+}
+const form2 = document.getElementById("form2");
+form2.addEventListener("submit", async (e) => handleSubmit2(e), false);
+</script>
+
+</html>
