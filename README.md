@@ -13,7 +13,8 @@ do all of this in Windows? I'm not sure, but you're welcome to try!)
 * Make sure that in Pycharm you've:
   * set the root project directory (File > Settings > Project > Project Structure).
   * set the Python interpreter that Pycharm should use (File > Settings > Project > Project Interpreter).
-  For any testing outside the Flask Docker container, you'll want to create a virtual environment using Python 3.10, and using the requirements.txt file
+  For any testing outside the Flask Docker container, you'll want to create a virtual environment using Python 3.10,
+  and using the requirements.txt file.
 * In Pycharm, open a terminal in the project root directory
   * type `docker-compose up --build`
     (if you'll be running this repeatedly, you may also need to run `docker-compose down` between cycling the containers up.)
