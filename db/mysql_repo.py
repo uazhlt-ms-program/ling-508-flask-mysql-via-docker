@@ -1,21 +1,35 @@
 import mysql.connector
 from db.repository import *
 from model.lex import Lexentry, POS
+import os
 
 
 class MysqlRepository(Repository):
 
     def __init__(self):
+        """
+        Put database configuration options HERE as a way of ENCAPSULATION:
+
+        The rest of the code doesn't need to care about HOW the database is connected,
+        just THAT it is connected once it creates a repository.
+        """
         super().__init__()
-        config = {
-            'user': 'root',
-            'password': 'strongpassword',
-            #'host': 'localhost',  #  used for testing when the app is not yet containerized
-            #'port': 32000,
-            'host': 'db',         #  used when the app is containerized
-            'port': 3306,
-            'database': 'lexicon'
-        }
+        if os.environ.get('APP_ENV') == 'docker':
+            config = {
+                'user': 'root',
+                'password': 'strongpassword',
+                'host': 'db',         #  used when the app is containerized
+                'port': 3306,
+                'database': 'lexicon'
+            }
+        else:
+            config = {
+                'user': 'root',
+                'password': 'strongpassword',
+                'host': 'localhost',  #  used for testing when the app is not yet containerized
+                'port': 32000,
+                'database': 'lexicon'
+            }
         self.connection = mysql.connector.connect(**config)
         self.cursor = self.connection.cursor()
 

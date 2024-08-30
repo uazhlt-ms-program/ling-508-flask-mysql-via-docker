@@ -16,11 +16,9 @@ services:
       - db
 
   db:
-    # Just going with a recent MySQL image, but selecting a specific one so it'll continue to work
+    # Just going with a recent MySQL image, but specifying a version so it'll continue to work
     image: mysql:9.0.1
     restart: always
-    #ports:
-    #  - "32000:3306"  # Don't need port mapping if Flask app is also running in a container
     environment:
       # Password needs to match what's in mysql_repo.py
       MYSQL_ROOT_PASSWORD: strongpassword
