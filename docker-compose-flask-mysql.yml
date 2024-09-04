@@ -19,6 +19,10 @@ services:
     # Just going with a recent MySQL image, but specifying a version so it'll continue to work
     image: mysql:9.0.1
     restart: always
+    # Compare this to the other docker-compose file:
+    #  When both MySQL and Flask are running in containers, they communicate
+    #  over Docker's virtual network interface, so we don't map any of the
+    #  container's ports to any ports on the localhost interface.
     environment:
       # Password needs to match what's in mysql_repo.py
       MYSQL_ROOT_PASSWORD: strongpassword
