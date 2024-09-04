@@ -21,6 +21,9 @@ services:
 
   db:
     # Just going with a recent MySQL image, but specifying a version so it'll continue to work
+    #  with this version of mysql-connector-python and won't drift. For info on compatibility
+    #  of versions of MySQL and mysql-connector-python, see
+    #  https://dev.mysql.com/doc/connector-python/en/connector-python-versions.html
     image: mysql:9.0.1
     restart: always
     # Compare this to the other docker-compose file:
