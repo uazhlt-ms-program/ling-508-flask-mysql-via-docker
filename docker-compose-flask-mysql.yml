@@ -6,6 +6,10 @@ services:
       # Within the Dockerfile, we'll give the command to start Flask, so that command doesn't need to be specified here
       dockerfile: Dockerfile
     environment:
+      # I'm using this environment variable for the logic in db/mysql_repo.py to change configuration
+      #  based on whether the app is running in a virtual environment or in a Docker container.
+      # Because I've used encapsulation to put all the MySQL-specific settings within that file,
+      #  the rest of the code base doesn't have to change whether the app is in Docker or not.
       APP_ENV: docker
     ports:
       - "5000:5000"
