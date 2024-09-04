@@ -14,7 +14,7 @@ class MysqlRepository(Repository):
         just THAT it is connected once it creates a repository.
         """
         super().__init__()
-        if os.environ.get('APP_ENV') == 'docker':
+        if os.environ.get('APP_ENV') == 'docker':  # detect when the app is containerized
             config = {
                 'user': 'root',
                 'password': 'strongpassword',
