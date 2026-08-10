@@ -51,8 +51,8 @@ database.
 
 ### To run the whole app in containers
 (ie, run both the database and the Flask app in Docker, as it would when deployed)
-* Start both MySQL and Flask in Docker: In Pycharm, open a terminal in the project root directory, and run `docker-compose -f docker-compose-flask-mysql.yml up --build`
-  (if you'll be running this repeatedly, you may also need to run `docker-compose -f docker-compose-flask-mysql.yml down`
+* Start both MySQL and Flask in Docker: In Pycharm, open a terminal in the project root directory, and run `docker compose -f docker-compose-flask-mysql.yml up --build`
+  (if you'll be running this repeatedly, you may also need to run `docker compose -f docker-compose-flask-mysql.yml down`
   between cycling the containers up.)
 * You should still be able to access the API via `localhost:5000` and see that the Flask app has access to the MySQL
 database.
