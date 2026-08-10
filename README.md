@@ -34,14 +34,15 @@ image that you select in the `docker-compose` file) needs to be compatible with 
 MySQL are listed on the Docker Hub page for MySQL [here](https://hub.docker.com/_/mysql). You'll set the version of
 `mysql-connector-python` in the `requirements.txt` file.
 * *Configuration*: The password that you tell MySQL to use is found in an environment variable within the Docker
-container for MySQL; you'll see that that is set in the `docker-compose` file. However, that password needs to
+container for MySQL; you'll see that that is set in the `docker compose` file. However, that password needs to
 match the one that is set in the configuration used by `mysql-connector-python`, which is found in the MySQL
 database implementation (`db/mysql_repo.py`). In the current state of this repository, that password is entered
 in both places, and simply needs to match.
 
 ### To run only the database in a container
-* Start MySQL in Docker: In Pycharm, open a terminal in the project root directory, and run `docker-compose -f docker-compose-mysql-only.yml up --build`
-  (if you'll be running this repeatedly, you may also need to run `docker-compose -f docker-compose-mysql-only.yml down`
+(ie, allow Python code running in your development environment to access the database directly, for developing or testing the Flask app)
+* Start MySQL in Docker: In Pycharm, open a terminal in the project root directory, and run `docker compose -f docker-compose-mysql-only.yml up --build`
+  (if you'll be running this repeatedly, you may also need to run `docker compose -f docker-compose-mysql-only.yml down`
   between cycling the containers up.)
 * Start Flask in the Python virtual environment:  Open a second terminal in the project root, make sure that the virtual environment is activated (look for `(venv)` to 
 the left of the command prompt), and run `python app.py`
@@ -49,6 +50,7 @@ the left of the command prompt), and run `python app.py`
 database.
 
 ### To run the whole app in containers
+(ie, run both the database and the Flask app in Docker, as it would when deployed)
 * Start both MySQL and Flask in Docker: In Pycharm, open a terminal in the project root directory, and run `docker-compose -f docker-compose-flask-mysql.yml up --build`
   (if you'll be running this repeatedly, you may also need to run `docker-compose -f docker-compose-flask-mysql.yml down`
   between cycling the containers up.)
